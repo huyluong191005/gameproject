@@ -25,12 +25,12 @@ int main(int argc, char* argv[]) {
     ScrollingBackground background;
     background.setTexture(graphics.loadTexture("images\\background2.png"));
     Mix_Chunk *gJump = graphics.loadSound("soundgame\\flapping3.mp3");
+    Mix_Chunk *drop = graphics.loadSound("soundgame\\collision2.mp3");
     SDL_Texture* bird = graphics.loadTexture("images\\bird1.png");
     SDL_Texture* pipe1 = graphics.loadTexture("images\\pipe1.png");
     SDL_Texture* pipe2 = graphics.loadTexture("images\\pipe2.png");
-    int textureWidth, textureHeight;
-    SDL_QueryTexture(pipe1, NULL, NULL, &textureWidth, &textureHeight);
-    cout<<textureWidth<<" "<<textureHeight;
+    SDL_Texture* over = graphics.loadTexture("images\\gameover1.png");
+    SDL_Texture* again = graphics.loadTexture("images\\playagain.png");
 
     Mouse os1;
     os1.x=870;
@@ -58,6 +58,11 @@ int main(int argc, char* argv[]) {
     while (!quit ) {
             if(gameOver(mouse,os1,os2,os3))
             {
+
+                graphics.play(drop);
+                graphics.renderTexture(over,140,-20);
+                graphics.renderTexture(again,480,400);
+                graphics.presentScene();
                 waitUntilKeyPressed();
                 break;
             }
@@ -89,9 +94,11 @@ int main(int argc, char* argv[]) {
 
         graphics.renderTexture2(bird, mouse.x, mouse.y,mouse.tiltAngle);
                if(mouse.tiltAngle<10) mouse.tiltAngle+=2;
+
         graphics.renderTexture(pipe1,os1.x,os1.y);
         graphics.renderTexture(pipe2,os2.x,os2.y);
         graphics.renderTexture(pipe1,os3.x,os3.y);
+
         if(os1.x<-230) os1.x=SCREEN_WIDTH;
         os1.x-=os1.speed;
         if(os2.x<-230) os2.x=SCREEN_WIDTH;
@@ -99,14 +106,20 @@ int main(int argc, char* argv[]) {
         if(os3.x<-230) os3.x=SCREEN_WIDTH;
         os3.x-=os3.speed;
 
+
         graphics.presentScene();
 
         SDL_Delay(5);
     }
+
     if (gJump != nullptr) Mix_FreeChunk( gJump);
+    if (drop != nullptr) Mix_FreeChunk( drop);
+
 
     SDL_DestroyTexture(bird);
     SDL_DestroyTexture(pipe1);
+    SDL_DestroyTexture(over);
+    SDL_DestroyTexture(again);
     graphics.quit();
 
     return 0;
