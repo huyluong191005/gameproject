@@ -14,13 +14,17 @@ void waitUntilKeyPressed()
         SDL_Delay(100);
     }
 }
+void playSoundIfNotPlaying(Mix_Chunk* sound) {
+    if (Mix_Playing(-1) == 0) {
+        Mix_PlayChannel(-1, sound, 0);
+    }
+}
 int main(int argc, char* argv[]) {
     Graphics graphics;
     graphics.init();
-
     ScrollingBackground background;
     background.setTexture(graphics.loadTexture("images\\background2.png"));
-
+    Mix_Chunk *gJump = graphics.loadSound("soundgame\\flapping3.mp3");
     SDL_Texture* bird = graphics.loadTexture("images\\bird1.png");
     SDL_Texture* pipe1 = graphics.loadTexture("images\\pipe1.png");
     SDL_Texture* pipe2 = graphics.loadTexture("images\\pipe2.png");
@@ -29,22 +33,22 @@ int main(int argc, char* argv[]) {
     cout<<textureWidth<<" "<<textureHeight;
 
     Mouse os1;
-    os1.x=270;
+    os1.x=870;
     os1.y=-50;
     os1.speed=6;
 
     Mouse os2;
-    os2.x=750;
+    os2.x=1350;
     os2.y=-50;
     os2.speed=6;
 
     Mouse os3;
-    os3.x=1230;
+    os3.x=1830;
     os3.y=-50;
     os3.speed=6;
 
     Mouse mouse;
-    mouse.x =50 ;
+    mouse.x =450 ;
     mouse.y =350;
     mouse.speed=INITIAL_SPEED;
     mouse.isJumping=false;
@@ -68,22 +72,17 @@ int main(int argc, char* argv[]) {
 
         const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 
-        mouse.handleJumping(currentKeyStates);
+
         if (currentKeyStates[SDL_SCANCODE_SPACE]&&!mouse.isJumping)
         {
             mouse.makeAjump();
+            playSoundIfNotPlaying(gJump);
             mouse.tiltAngle=-45;
         }
         else  {
                 mouse.freeFall();
         }
         mouse.move();
-
-
-        if (!mouse.isJumping && mouse.lastJumpTime != 0)
-        {
-            mouse.lastJumpTime = SDL_GetTicks();
-        }
 
         background.scroll(6);
         graphics.render(background);
@@ -104,6 +103,8 @@ int main(int argc, char* argv[]) {
 
         SDL_Delay(5);
     }
+    if (gJump != nullptr) Mix_FreeChunk( gJump);
+
     SDL_DestroyTexture(bird);
     SDL_DestroyTexture(pipe1);
     graphics.quit();

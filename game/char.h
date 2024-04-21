@@ -39,23 +39,8 @@ struct Mouse {
     }
 
 
-    void handleJumping(const Uint8* currentKeyStates)
-{
 
-    const Uint32 JUMP_INTERVAL = 2000;
 
-    if (currentKeyStates[SDL_SCANCODE_SPACE] && !isJumping) {
-        Uint32 currentTime = SDL_GetTicks();
-        Uint32 timeSinceLastJump = currentTime - lastJumpTime;
-
-        if (timeSinceLastJump >= JUMP_INTERVAL) {
-
-            isJumping = true;
-            lastJumpTime = currentTime;
-
-        }
-    }
-}
 
 };
   bool isCollision (SDL_Rect rect1,SDL_Rect rect2)
@@ -74,14 +59,14 @@ bool isCollisionwithpipe(Mouse mouse,Mouse os1,Mouse os2,Mouse os3)
     (birdRect.x + birdWidth > pipe2Rect.x && birdRect.x < pipe2Rect.x + pipeWidth) ||
     (birdRect.x + birdWidth > pipe3Rect.x && birdRect.x < pipe3Rect.x + pipeWidth)) {
 
-    if (!(birdRect.y > GAP_TOP && birdRect.y + birdHeight < GAP_TOP + GAP_HEIGHT)) {
+        if (!(birdRect.y > GAP_TOP && birdRect.y + birdHeight < GAP_TOP + GAP_HEIGHT)) {
 
         if (isCollision(birdRect, pipe1Rect)  || isCollision(birdRect, pipe3Rect)) {
 
             return true;
         }
     }
-     if (!(birdRect.y > 152 && birdRect.y + birdHeight < 152 + GAP_HEIGHT))
+        if (!(birdRect.y > 152 && birdRect.y + birdHeight < 152 + GAP_HEIGHT))
      {
          if(isCollision(birdRect,pipe2Rect))
          {

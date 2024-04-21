@@ -1,21 +1,31 @@
 # depslib dependency file v1.0
-1713685402 source:d:\gameproject\game\main.cpp
+1713689207 source:d:\gameproject\game\main.cpp
 	"defs.h"
 	"graphics.h"
 	"char.h"
 	<iostream>
 
-1713685171 d:\gameproject\game\defs.h
+1713689823 d:\gameproject\game\defs.h
 
-1713613504 d:\gameproject\game\graphics.h
+1713687263 d:\gameproject\game\graphics.h
 	<SDL.h>
 	<SDL_image.h>
 	"defs.h"
 	<vector>
+	<SDL_mixer.h>
 
-1713684766 d:\gameproject\game\char.h
+1713689600 d:\gameproject\game\char.h
 	<SDL.h>
 	<SDL_image.h>
 	"defs.h"
 	"graphics.h"
+
+1705857752 d:\sdl2_mixer-2.8.0\x86_64-w64-mingw32\include\sdl2\sdl_mixer.h
+	"SDL_stdinc.h"
+	"SDL_rwops.h"
+	"SDL_audio.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
 
