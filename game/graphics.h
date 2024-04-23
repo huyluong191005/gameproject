@@ -6,6 +6,7 @@
 #include "defs.h"
 #include <vector>
 #include <SDL_mixer.h>
+#include <bits/stdc++.h>
 struct ScrollingBackground {
     SDL_Texture* texture;
     int scrollingOffset = 0;
@@ -154,7 +155,7 @@ struct Graphics {
             Mix_ResumeMusic();
         }
     }
-    Mix_Chunk* loadSound(const char* path) {
+     Mix_Chunk* loadSound(const char* path) {
         Mix_Chunk* gChunk = Mix_LoadWAV(path);
         if (gChunk == nullptr) {
             SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION,
@@ -167,8 +168,84 @@ struct Graphics {
             Mix_PlayChannel( -1, gChunk, 0 );
         }
     }
+    void startPage(SDL_Texture *background,SDL_Texture* flappybird,SDL_Texture* bird,SDL_Texture* start,SDL_Texture* larrow,SDL_Texture* rarrow)
+    {
+        renderTexture(background,0,0);
+        renderTexture(flappybird,185,50);
+        renderTexture(start,510,570);
+       // renderTexture(larrow,400,340);
+        // renderTexture(rarrow,670,340);
+        renderTexture(bird,550,350);
+
+        presentScene();
+    }
+    bool mouseClickrect(int Tx,int Ty,int w,int h)
+    {
+        int x,y;
+        SDL_Event event;
+        while(SDL_WaitEvent(&event))
+        {
+            SDL_GetMouseState(&x, &y);
+
+            if(event.type==SDL_MOUSEBUTTONDOWN)
+            {
+                if(x>=Tx&&x<=Tx+w)
+                {
+                    if(y>=Ty&&y<=Ty+h)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+
+        }
+        return false;
+
+    }
+ bool mouseClickstart() {
+    int x, y;
+    SDL_Event event;
+    while (SDL_WaitEvent(&event)) {
+        if (event.type == SDL_MOUSEBUTTONDOWN) {
+            SDL_GetMouseState(&x, &y);
+            if (x >= 510 && x <= 510 + 166 && y >= 570 && y <= 570 + 70) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 
 
 };
+void waitUntilKeyPressed()
+{
+    SDL_Event e;
+    while (true) {
+        if ( SDL_PollEvent(&e) != 0 &&
+             (e.type == SDL_KEYDOWN || e.type == SDL_QUIT) )
+            return;
+        SDL_Delay(100);
+    }
+}
+void playSoundIfNotPlaying(Mix_Chunk* sound) {
+    if (Mix_Playing(-1) == 0) {
+        Mix_PlayChannel(-1, sound, 0);
+    }
+}
+void adjustVolume(int change) {
+    int volume = Mix_Volume(-1, -1);
+    volume += change;
+    if(volume < 0) volume = 0;
+    if(volume > 128) volume = 128;
+    Mix_Volume(-1, volume);
+}
+void setVolume(int volume) {
+    if(volume < 0) volume = 0;
+    if(volume > MIX_MAX_VOLUME) volume = MIX_MAX_VOLUME;
+    Mix_Volume(-1, volume);
+}
 
 #endif // _GRAPHICS__H

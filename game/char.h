@@ -7,9 +7,9 @@
 
 const int birdWidth=70;
 const int birdHeight=60;
-const int pipeWidth=122;
+const int pipeWidth=118;
 const int pipeHeight=748;
-const int GAP_WIDTH = 122;
+const int GAP_WIDTH = 118 ;
 const int GAP_HEIGHT = 173;
 const int GAP_TOP = 337 ;
 
@@ -35,12 +35,9 @@ struct Mouse {
         dx=0;
         dy=-speed;}
         isJumping=true;
+        SDL_Delay(5);
 
     }
-
-
-
-
 
 };
   bool isCollision (SDL_Rect rect1,SDL_Rect rect2)
@@ -86,7 +83,5 @@ bool gameOver(const Mouse& mouse,Mouse os1,Mouse os2,Mouse os3) {
     if(isCollisionwithpipe(mouse,os1,os2,os3)) return 1;
     return 0;
 }
-
-
 
 #endif
